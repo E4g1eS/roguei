@@ -2,4 +2,4 @@
 .code/
 
 # Compiled JavaScript code
-.js
+*.js
