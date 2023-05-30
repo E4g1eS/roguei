@@ -1,24 +1,23 @@
 export class Renderer {
 
-    context : CanvasRenderingContext2D | null;
+    _context: CanvasRenderingContext2D | null;
 
-    constructor(width : number = 800, height : number = 800, element : HTMLElement | null = null) {
+    constructor(width: number, height: number, element: HTMLElement | null = null) {
         let canvas = document.createElement("canvas");
-        //this.canvas.style.width = width.toString();
-        //this.canvas.style.height = height.toString();
-        this.context = canvas.getContext("2d");
+        this._context = canvas.getContext("2d");
 
-        if (!this.context)
+        if (!this._context)
             throw new Renderer.No2DContextError();
-        
-        this.context.canvas.width = width;
-        this.context.canvas.height = height;
+
+        this._context.canvas.width = width;
+        this._context.canvas.height = height;
+        this._context.canvas.id = "game-canvas";
 
         if (element)
-            element.appendChild(this.context.canvas);
+            element.appendChild(this._context.canvas);
 
         else
-            document.body.appendChild(this.context.canvas);
+            document.body.appendChild(this._context.canvas);
     }
 
     static No2DContextError = class extends Error {
