@@ -1,3 +1,5 @@
+export const CANVAS_ID = "game-canvas";
+
 export class Vector2 {
 
     x: number;
@@ -46,6 +48,37 @@ export class Vector2 {
     /** Returns angle between two vectors in radians. */
     Angle(other: Vector2) {
         return Math.acos(this.Normalized().Dot(other.Normalized()));
+    }
+
+    Equals(other: Vector2) {
+        return this.x === other.x && this.y === other.y;
+    }
+}
+
+export class Color {
+    r: number;
+    g: number;
+    b: number;
+    a: number;
+
+    /** RGB in 0-255, Alpha on 0.0 (transparent) - 1.0 (fully visible). */
+    constructor(red = 255, green = 28, blue = 206, alpha = 1) {
+        this.r = red;
+        this.g = green;
+        this.b = blue;
+        this.a = alpha;
+    }
+
+    Hex() {
+        return `#${this.r.toString(16)}${this.g.toString(16)}${this.b.toString(16)}`
+    }
+
+    RGB() {
+        return `rgb(${this.r}, ${this.g}, ${this.b})`;
+    }
+
+    RGBA() {
+        return `rgb(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
     }
 }
 

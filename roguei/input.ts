@@ -1,7 +1,9 @@
+import { CANVAS_ID } from "./primitives.js";
+
 export class Input {
     constructor(element: HTMLElement) {
 
-        let canvas = document.getElementById("game-canvas");
+        let canvas = document.getElementById(CANVAS_ID);
         if (!canvas)
             return;
 

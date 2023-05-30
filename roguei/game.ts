@@ -4,7 +4,7 @@ import { Input } from "./input.js";
 
 export class Game {
 
-    private _renderer?: Renderer;
+    private _renderer!: Renderer;
     private _input?: Input;
 
     private _player: Player;
