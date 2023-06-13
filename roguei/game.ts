@@ -1,6 +1,7 @@
 import { Player } from "./player.js";
 import { Renderer } from "./renderer.js";
 import { Input } from "./input.js";
+import { Map } from "./map.js";
 
 export class Game {
 
@@ -8,6 +9,8 @@ export class Game {
     private _input?: Input;
 
     private _player: Player;
+
+    private _map!: Map;
 
     static ElementNotFoundError = class extends Error {
         constructor(elementId: string) {
@@ -23,6 +26,7 @@ export class Game {
 
         this.InitRenderer(element);
         this.InitInput(element);
+        this.InitMap();
 
         this._player = new Player();
         this._player.onDeath.AddSubscriber(this.GameOver);
@@ -34,6 +38,10 @@ export class Game {
 
     private InitInput(element: HTMLElement) {
         this._input = new Input(element);
+    }
+
+    private InitMap() {
+        this._map = new Map();
     }
 
     GameOver() {

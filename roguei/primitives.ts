@@ -1,5 +1,17 @@
 export const CANVAS_ID = "game-canvas";
 
+/**
+ * Generates a random integer in range [min, max]. Both numbers are inclusive.
+ * @param max Maximum number, inclusive.
+ * @param min Minimum number, inclusive. Defaults to 0.
+ * @returns Random integer.
+ */
+export function RandomInt(max: number, min: number = 0) {
+    min = Math.floor(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
 export class Vector2 {
 
     x: number;
