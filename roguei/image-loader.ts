@@ -1,9 +1,9 @@
-import { Vector2 } from "./primitives";
+import { Debug } from "./primitives.js";
 
 /**
  * List of files to be automatically loaded at game start as images.
  */
-export const IMAGE_FILES = [
+const IMAGE_FILES = [
     "deep-water.png",
     "grass.png",
     "mountains.png",
@@ -78,7 +78,7 @@ export class ImageLoader {
             let imageData = this.LoadImageData(imageType.element);
             const bitmap = await createImageBitmap(imageData);
             this._images.set(imageType.name, bitmap);
-            console.log(`Loaded "${imageType.name}"`);
+            Debug(`Loaded "${imageType.name}"`, 4);
         }
     }
 

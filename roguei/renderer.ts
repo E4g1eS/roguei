@@ -82,7 +82,5 @@ export class Renderer {
                 this._context.drawImage(bitmap, x * tileSize.x, y * tileSize.y, tileSize.x, tileSize.y);
             }
         }
-
-        console.log("drawn");
     }
 }

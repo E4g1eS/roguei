@@ -1,5 +1,13 @@
 export const CANVAS_ID = "game-canvas";
 
+/** Severity of debug information. */
+const DEBUG_LEVEL = 10;
+
+export function Debug(message: any, level: number = 10) {
+    if (DEBUG_LEVEL >= level)
+        console.log(message);
+}
+
 /**
  * Generates a random integer in range [min, max]. Both numbers are inclusive.
  * @param max Maximum number, inclusive.

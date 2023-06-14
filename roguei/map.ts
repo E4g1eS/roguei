@@ -1,5 +1,5 @@
 import { Tile, TileTemplate } from "./tile.js";
-import { Vector2, RandomInt } from "./primitives.js";
+import { Vector2, RandomInt, Debug } from "./primitives.js";
 import { CreateTileset } from "./tile-types.js";
 
 class CollapsingTile {
@@ -72,31 +72,15 @@ export class Map {
         this._tiles = [];
 
         let tileTemplates = CreateTileset();
-        console.log(tileTemplates);
-        /*
-        let tileTemplates = new Array<TileTemplate>();
+        Debug(tileTemplates, 5);
 
-        for (let i = 0; i < 10; i++) {
-            tileTemplates.push(new TileTemplate(String(i)));
-        }
-
-        tileTemplates.forEach((tileTemplate, i) => {
-            tileTemplate.constraints.add(tileTemplate);
-
-            if (i - 1 > 0)
-                tileTemplates[i].constraints.add(tileTemplates[i - 1]);
-
-            if (i + 1 < 10)
-                tileTemplates[i].constraints.add(tileTemplates[i + 1]);
-        });
-        */
         let tiles = this.WaveFunctionCollapse(tileTemplates, size);
 
         if (tiles)
             this._tiles = tiles;
 
-        console.log("Map initilized!");
-        console.log(this);
+        Debug("Map initilized!", 5);
+        Debug(this, 8);
         this.PrintTiles();
     }
 
@@ -115,7 +99,7 @@ export class Map {
             result += "\n";
         });
 
-        console.log(result);
+        Debug(result, 7);
     }
     
     private WaveFunctionCollapse(tileTemplates: Set<TileTemplate>, size: number) {
@@ -141,13 +125,13 @@ export class Map {
             // End if at end
             if (lowestEntropy == 0)
             {
-                console.log("Failed WFC");
+                Debug("Failed WFC", 3);
                 return null;
             }
 
             if (lowestEntropy == 1)
             {
-                console.log("Finished WFC");
+                Debug("Finished WFC", 3);
                 break;
             }
 
@@ -159,7 +143,7 @@ export class Map {
             this.Propagate(possibilities, lowestEntropyTile, new Vector2(lowestEntropyPosition.x, lowestEntropyPosition.y - 1));
         }
 
-        console.log(possibilities);
+        Debug(possibilities, 8);
 
         let tiles = new Array<Tile[]>();
         possibilities.forEach((possibilitiesColumn, x) => {

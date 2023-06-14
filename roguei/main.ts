@@ -4,14 +4,15 @@ addEventListener("DOMContentLoaded", (event) => {
 
 import { Game } from "./game.js";
 import { ImageLoader } from "./image-loader.js";
+import { Debug } from "./primitives.js";
 
 const ELEMENT_ID = "game-div";
 
 function main() {
-    console.log("Loading images...");
+    Debug("Loading images...", 3);
     const imageLoader = ImageLoader.GetInstance();
     imageLoader.LoadAll().then( () => {
-        console.log("Launching...");
+        Debug("Launching...", 1);
         const game = new Game(ELEMENT_ID);
         game.Run();
     });

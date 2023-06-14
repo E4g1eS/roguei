@@ -2,6 +2,7 @@ import { Player } from "./player.js";
 import { Renderer } from "./renderer.js";
 import { Input } from "./input.js";
 import { Map } from "./map.js";
+import { Debug } from "./primitives.js";
 
 export class Game {
     private _running = true;
@@ -47,7 +48,7 @@ export class Game {
 
     GameOver() {
         this._running = false;
-        console.log("Game over!");
+        Debug("Game over!", 2);
     }
 
     Update() {

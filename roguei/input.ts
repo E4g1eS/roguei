@@ -1,4 +1,5 @@
 import { CANVAS_ID } from "./primitives.js";
+import { Debug } from "./primitives.js";
 
 export class Input {
     constructor(element: HTMLElement) {
@@ -18,6 +19,6 @@ export class Input {
     }
 
     private PressedKey(code: string) {
-        console.log(`Pressed "${code}"`);
+        Debug(`Pressed "${code}"`, 10);
     }
 }
