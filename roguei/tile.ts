@@ -1,13 +1,21 @@
+import { DrawableImage } from "./image-loader.js";
+
 /**
  * Prototype for a tile.
  */ 
 export class TileTemplate {
-    representation: string;
+    fallbackText: string;
     constraints: Set<TileTemplate>;
+    protected _image: DrawableImage | null;
 
     constructor(representation: string) {
-        this.representation = representation;
+        this.fallbackText = representation;
         this.constraints = new Set();
+        this._image = null;
+    }
+
+    GetImage() {
+        return this._image;
     }
 }
 

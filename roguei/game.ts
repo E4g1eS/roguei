@@ -4,6 +4,7 @@ import { Input } from "./input.js";
 import { Map } from "./map.js";
 
 export class Game {
+    private _running = true;
 
     private _renderer!: Renderer;
     private _input?: Input;
@@ -45,11 +46,24 @@ export class Game {
     }
 
     GameOver() {
+        this._running = false;
+        console.log("Game over!");
+    }
+
+    Update() {
+
+    }
+
+    Draw() {
+        this._renderer.Clear();
+        this._renderer.RenderTiles(this._map.GetTiles());
     }
 
     Run() {
-        return;
+        this.Update();
+        this.Draw();
+
+        if (this._running)
+            window.requestAnimationFrame(() => this.Run());
     }
-
-
 }

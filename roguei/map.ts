@@ -1,5 +1,6 @@
 import { Tile, TileTemplate } from "./tile.js";
 import { Vector2, RandomInt } from "./primitives.js";
+import { CreateTileset } from "./tile-types.js";
 
 class CollapsingTile {
     private _possibilities: Set<TileTemplate> = new Set();
@@ -70,6 +71,9 @@ export class Map {
     constructor(size: number = 20) {
         this._tiles = [];
 
+        let tileTemplates = CreateTileset();
+        console.log(tileTemplates);
+        /*
         let tileTemplates = new Array<TileTemplate>();
 
         for (let i = 0; i < 10; i++) {
@@ -85,8 +89,7 @@ export class Map {
             if (i + 1 < 10)
                 tileTemplates[i].constraints.add(tileTemplates[i + 1]);
         });
-
-        
+        */
         let tiles = this.WaveFunctionCollapse(tileTemplates, size);
 
         if (tiles)
@@ -97,12 +100,16 @@ export class Map {
         this.PrintTiles();
     }
 
+    GetTiles() {
+        return this._tiles;
+    }
+
     PrintTiles() {
         let result = "";
 
         this._tiles.forEach(tileColumn => {
             tileColumn.forEach(tile => {
-                result += tile.template.representation;
+                result += tile.template.fallbackText;
             });
 
             result += "\n";
@@ -111,7 +118,7 @@ export class Map {
         console.log(result);
     }
     
-    private WaveFunctionCollapse(tileTemplates: TileTemplate[], size: number) {
+    private WaveFunctionCollapse(tileTemplates: Set<TileTemplate>, size: number) {
         
         let possibilities = new Array<CollapsingTile[]>(size);
         for (let x = 0; x < size; x++) {
