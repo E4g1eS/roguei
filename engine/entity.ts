@@ -1,3 +1,4 @@
+import { Drawable } from "./components.js";
 import { Vector2 } from "./primitives.js";
 import { GameEvent } from "./primitives.js";
 import { Color } from "./primitives.js";
@@ -8,6 +9,9 @@ export abstract class Entity {
     onPositionChange = new GameEvent();
 
     protected _position: Vector2 = new Vector2;
+
+    // Components
+    drawable?: Drawable;
 
     GetPosition() {
         return this._position;

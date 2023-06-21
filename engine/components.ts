@@ -1,4 +1,4 @@
-import { MetaImage } from "./image-loader.js";
+import { ImageLoader, MetaImage } from "./image-loader.js";
 import { Color, GameEvent, Vector2 } from "./primitives.js";
 
 export interface Component {};
@@ -58,6 +58,7 @@ export class Health implements Component {
 
 export interface Drawable extends Component {
     GetSize(): Vector2;
+    GetBitmap(): ImageBitmap;
 }
 
 export class DrawableRect implements Drawable {
@@ -72,6 +73,15 @@ export class DrawableRect implements Drawable {
     GetSize() {
         return this._size;
     }
+
+    GetBitmap(): ImageBitmap {
+        let data = new Uint8Array(4 * this._size.x * this._size.y);
+
+        // TODO caching
+        //for (let i = 0) 
+
+        return new ImageBitmap();
+    }
 }
 
 export class DrawableImage implements Drawable {
@@ -83,5 +93,9 @@ export class DrawableImage implements Drawable {
 
     GetSize() {
         return this._image.size;
+    }
+
+    GetBitmap(): ImageBitmap {
+        return ImageLoader.GetInstance().GetImageBitmap(this._image);
     }
 }

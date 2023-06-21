@@ -1,8 +1,8 @@
+import { Entity } from "./entity.js";
 import { ImageLoader } from "./image-loader.js";
 import { CANVAS_ID } from "./primitives.js";
 import { Vector2 } from "./primitives.js";
-import { Tile } from "./tile.js";
-import { World } from "./world.js";
+import { EntityLayer, World } from "./world.js";
 
 /** WIP for multiwindow rendering */
 class Window {
@@ -21,6 +21,7 @@ export class Renderer {
 
     private _clearColor = "#FFFFFF";
     private _context: CanvasRenderingContext2D;
+    private _centerOffset: Vector2;
 
     constructor(width: number, height: number, element: HTMLElement | null = null) {
         let canvas = document.createElement("canvas");
@@ -33,6 +34,8 @@ export class Renderer {
         this._context.canvas.width = width;
         this._context.canvas.height = height;
         this._context.canvas.id = CANVAS_ID;
+
+        this._centerOffset = new Vector2(width / 2, height / 2);
 
         if (element)
             element.appendChild(this._context.canvas);
@@ -52,32 +55,47 @@ export class Renderer {
         this._context.fillRect(0, 0, this._context.canvas.width, this._context.canvas.height);
     }
 
-    RenderWorld(world: World) {
-        
+    private IsInBounds(point: Vector2) {
+        if (
+            point.x < 0
+            || point.y < 0
+            || point.x >= this._context.canvas.width
+            || point.y >= this._context.canvas.height
+        ) {
+            return false;
+        }
+
+        return true;
     }
 
-    RenderTiles(tiles: Tile[][]) {
-        const columns = tiles.length;
-        const rows = tiles[0].length;
+    private RenderEntity(world: World, entity: Entity) {
+        if (!entity.drawable)
+            return;
 
-        const tileSize = new Vector2(this._context.canvas.width / columns, this._context.canvas.height / rows);
+        const drawPosition = world.GetCamera().GetPosition().Subtract(entity.GetPosition()).Add(this._centerOffset);
+        const drawPositionEnd = drawPosition.Add(entity.drawable.GetSize());
 
-        for (let x = 0; x < columns; x++)
-        {
-            for (let y = 0; y < rows; y++)
-            {
-                const tile = tiles[x][y];
-                const image = tile.template.GetImage();
-
-                if (!image)
-                {
-                    console.log(`Fallback draw: ${tile.template.fallbackText}`);
-                    continue;
-                }
-
-                const bitmap = ImageLoader.GetInstance().GetImageBitmap(image);
-                this._context.drawImage(bitmap, x * tileSize.x, y * tileSize.y, tileSize.x, tileSize.y);
-            }
+        if (
+            drawPosition.x >= this._context.canvas.width
+            || drawPosition.y >= this._context.canvas.height
+            || drawPositionEnd.x < 0
+            || drawPositionEnd.y < 0
+        ) {
+            return;
         }
+    }
+
+    private RenderLayer(world: World, layer: EntityLayer) {
+        for (const entity of layer.GetEntities())
+            this.RenderEntity(world, entity);
+    }
+
+    private RenderLayers(world: World) {
+        for (const layer of world.GetEntityLayers())
+            this.RenderLayer(world, layer);
+    }
+
+    RenderWorld(world: World) {
+        this.RenderLayers(world);
     }
 }

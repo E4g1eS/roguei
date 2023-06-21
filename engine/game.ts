@@ -54,7 +54,7 @@ export class Game {
 
     Draw() {
         this._renderer.Clear();
-        this._renderer.RenderTiles(this._world.GetTiles());
+        this._renderer.RenderWorld(this._world);
     }
 
     Run() {

@@ -34,6 +34,15 @@ export class Vector2 {
         return new Vector2(this.x + other.x, this.y + other.y);
     }
 
+    Subtract(other: Vector2) {
+        return new Vector2(this.x - other.x, this.y - other.y);
+    }
+
+    SubtractInplace(other: Vector2) {
+        this.x -= other.x;
+        this.y -= other.y;
+    }
+
     AddInplace(other: Vector2) {
         this.x += other.x;
         this.y += other.y;
