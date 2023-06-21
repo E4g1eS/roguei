@@ -1,4 +1,4 @@
-import { Debug } from "./primitives.js";
+import { Debug, Vector2 } from "./primitives.js";
 
 /**
  * List of files to be automatically loaded at game start as images.
@@ -21,11 +21,13 @@ interface NamedImageElement {
     element: HTMLImageElement;
 };
 
-export class DrawableImage {
+export class MetaImage {
     readonly name: string;
+    readonly size: Vector2;
 
-    constructor(name: string) {
+    constructor(name: string, size: Vector2) {
         this.name = name;
+        this.size = size;
     }
 };
 
@@ -106,16 +108,18 @@ export class ImageLoader {
      * @returns An instance of image that can be drawn by renderer.
      */
     public GetImageReference(name: string) {
-        if (!this._images.has(name))
+        const metaImage = this._images.get(name);
+
+        if (!metaImage)
             throw new Error(`There is no image "name"!`);
 
-        return new DrawableImage(name);
+        return new MetaImage(name, new Vector2(metaImage.width, metaImage.height));
     }
 
     /**
-     * Returns raw ImageData of the requested DrawableImage.
+     * Returns ImageBitmap of the requested DrawableImage.
      */
-    public GetImageBitmap(drawable: DrawableImage) {
+    public GetImageBitmap(drawable: MetaImage) {
         const imageData = this._images.get(drawable.name);
 
         if (!imageData)

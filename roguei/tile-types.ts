@@ -1,67 +1,66 @@
-import { TileTemplate } from "./tile.js";
-import { ImageLoader } from "./image-loader.js";
+import * as ENGINE from "../engine/engine.js";
 
-class Grass extends TileTemplate {
+class Grass extends ENGINE.TileTemplate {
 
     constructor(representation = ",") {
         super(representation);
 
-        this._image = ImageLoader.GetInstance().GetImageReference("grass.png");
+        this._image = ENGINE.ImageLoader.GetInstance().GetImageReference("grass.png");
     }
 }
 
-class Mountains extends TileTemplate {
+class Mountains extends ENGINE.TileTemplate {
 
     constructor(representation = "^") {
         super(representation);
 
-        this._image = ImageLoader.GetInstance().GetImageReference("mountains.png");
+        this._image = ENGINE.ImageLoader.GetInstance().GetImageReference("mountains.png");
     }
 }
 
-class Sand extends TileTemplate {
+class Sand extends ENGINE.TileTemplate {
 
     constructor(representation = ".") {
         super(representation);
 
-        this._image = ImageLoader.GetInstance().GetImageReference("sand.png");
+        this._image = ENGINE.ImageLoader.GetInstance().GetImageReference("sand.png");
     }
 }
 
-class Snow extends TileTemplate {
+class Snow extends ENGINE.TileTemplate {
 
     constructor(representation = "_") {
         super(representation);
 
-        this._image = ImageLoader.GetInstance().GetImageReference("snow.png");
+        this._image = ENGINE.ImageLoader.GetInstance().GetImageReference("snow.png");
     }
 }
 
-class Trees extends TileTemplate {
+class Trees extends ENGINE.TileTemplate {
 
     constructor(representation = "|") {
         super(representation);
 
-        this._image = ImageLoader.GetInstance().GetImageReference("trees.png");
+        this._image = ENGINE.ImageLoader.GetInstance().GetImageReference("trees.png");
     }
 }
 
-class Water extends TileTemplate {
+class Water extends ENGINE.TileTemplate {
 
     constructor(representation = "~") {
         super(representation);
-        this._image = ImageLoader.GetInstance().GetImageReference("water.png");
+        this._image = ENGINE.ImageLoader.GetInstance().GetImageReference("water.png");
     }
 }
 
-class DeepWater extends TileTemplate {
+class DeepWater extends ENGINE.TileTemplate {
     constructor(representation = "w") {
         super(representation);
-        this._image = ImageLoader.GetInstance().GetImageReference("deep-water.png");
+        this._image = ENGINE.ImageLoader.GetInstance().GetImageReference("deep-water.png");
     }
 }
 
-function LinkTileTemplates(tileTemplate1: TileTemplate, tileTemplate2: TileTemplate) {
+function LinkTileTemplates(tileTemplate1: ENGINE.TileTemplate, tileTemplate2: ENGINE.TileTemplate) {
     tileTemplate1.constraints.add(tileTemplate2);
 
     if (tileTemplate1 === tileTemplate2)
@@ -71,7 +70,7 @@ function LinkTileTemplates(tileTemplate1: TileTemplate, tileTemplate2: TileTempl
 } 
 
 export function CreateTileset() {
-    const tileset = new Set<TileTemplate>();
+    const tileset = new Set<ENGINE.TileTemplate>();
 
     // Possible to automate it / load it from config file.
     let grass = new Grass();

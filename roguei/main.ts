@@ -2,18 +2,16 @@ addEventListener("DOMContentLoaded", (event) => {
     main();
 });
 
-import { Game } from "./game.js";
-import { ImageLoader } from "./image-loader.js";
-import { Debug } from "./primitives.js";
+import * as ENGINE from "../engine/engine.js";
 
 const ELEMENT_ID = "game-div";
 
 function main() {
-    Debug("Loading images...", 3);
-    const imageLoader = ImageLoader.GetInstance();
+    ENGINE.Debug("Loading images...", 3);
+    const imageLoader = ENGINE.ImageLoader.GetInstance();
     imageLoader.LoadAll().then( () => {
-        Debug("Launching...", 1);
-        const game = new Game(ELEMENT_ID);
+        ENGINE.Debug("Launching...", 1);
+        const game = new ENGINE.Game(ELEMENT_ID);
         game.Run();
     });
 }

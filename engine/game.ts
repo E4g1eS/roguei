@@ -1,18 +1,16 @@
-import { Player } from "./player.js";
 import { Renderer } from "./renderer.js";
 import { Input } from "./input.js";
-import { Map } from "./map.js";
+import { World } from "./world.js";
 import { Debug } from "./primitives.js";
 
 export class Game {
     private _running = true;
 
     private _renderer!: Renderer;
-    private _input?: Input;
+    private _input!: Input;
+    private _world!: World;
 
-    private _player: Player;
-
-    private _map!: Map;
+    private _lastTickTime: number;
 
     static ElementNotFoundError = class extends Error {
         constructor(elementId: string) {
@@ -28,10 +26,9 @@ export class Game {
 
         this.InitRenderer(element);
         this.InitInput(element);
-        this.InitMap();
+        this.InitWorld();
 
-        this._player = new Player();
-        this._player.onDeath.AddSubscriber(this.GameOver);
+        this._lastTickTime = performance.now();
     }
 
     private InitRenderer(element: HTMLElement) {
@@ -42,8 +39,8 @@ export class Game {
         this._input = new Input(element);
     }
 
-    private InitMap() {
-        this._map = new Map();
+    private InitWorld() {
+        this._world = new World();
     }
 
     GameOver() {
@@ -51,18 +48,22 @@ export class Game {
         Debug("Game over!", 2);
     }
 
-    Update() {
-
+    Update(deltaTime: number) {
+        
     }
 
     Draw() {
         this._renderer.Clear();
-        this._renderer.RenderTiles(this._map.GetTiles());
+        this._renderer.RenderTiles(this._world.GetTiles());
     }
 
     Run() {
-        this.Update();
+        const now = performance.now();
+        
+        this.Update(now - this._lastTickTime);
         this.Draw();
+
+        this._lastTickTime = now;
 
         if (this._running)
             window.requestAnimationFrame(() => this.Run());

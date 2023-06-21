@@ -1,4 +1,4 @@
-import { DrawableImage } from "./image-loader.js";
+import { MetaImage } from "./image-loader.js";
 
 /**
  * Prototype for a tile.
@@ -6,7 +6,7 @@ import { DrawableImage } from "./image-loader.js";
 export class TileTemplate {
     fallbackText: string;
     constraints: Set<TileTemplate>;
-    protected _image: DrawableImage | null;
+    protected _image: MetaImage | null;
 
     constructor(representation: string) {
         this.fallbackText = representation;
