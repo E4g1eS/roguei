@@ -2,30 +2,25 @@ import { ImageLoader } from "./image-loader.js";
 import { CANVAS_ID } from "./primitives.js";
 import { Vector2 } from "./primitives.js";
 import { Tile } from "./tile.js";
+import { World } from "./world.js";
 
-const CLEAR_COLOR = "#FFFFFF";
+/** WIP for multiwindow rendering */
+class Window {
+    /** Size (relative) to whole parent [0-1]. */
+    private _size: Vector2;
+    /** Offset (from left, up) (relative) to parent [0-1]. */
+    private _offset: Vector2;
 
-class TileWindow {
-    /** Size (relative) to whole canvas. */
-    private _tileWindowSize: Vector2;
-    /** Offset (from left, up) (relative) to whole canvas. */
-    private _tileWindowOffset: Vector2;
-
-    /**
-     * Initilizes TileWindow.
-     * @param tileWindowSize Relative size to the rest of the canvas [0-1].
-     * @param tileWindowOffset Relative offset [0-1].
-     */
-    constructor(tileWindowSize: Vector2, tileWindowOffset: Vector2 = new Vector2()) {
-        this._tileWindowSize = tileWindowSize;
-        this._tileWindowOffset = tileWindowOffset;
+    constructor(size: Vector2, offset: Vector2) {
+        this._size = size;
+        this._offset = offset;
     }
 }
 
 export class Renderer {
 
+    private _clearColor = "#FFFFFF";
     private _context: CanvasRenderingContext2D;
-    private _tileWindow: TileWindow;
 
     constructor(width: number, height: number, element: HTMLElement | null = null) {
         let canvas = document.createElement("canvas");
@@ -38,8 +33,6 @@ export class Renderer {
         this._context.canvas.width = width;
         this._context.canvas.height = height;
         this._context.canvas.id = CANVAS_ID;
-
-        this._tileWindow = new TileWindow(new Vector2(1, 1));
 
         if (element)
             element.appendChild(this._context.canvas);
@@ -55,8 +48,12 @@ export class Renderer {
     }
 
     Clear() {
-        this._context.fillStyle = CLEAR_COLOR;
+        this._context.fillStyle = this._clearColor;
         this._context.fillRect(0, 0, this._context.canvas.width, this._context.canvas.height);
+    }
+
+    RenderWorld(world: World) {
+        
     }
 
     RenderTiles(tiles: Tile[][]) {

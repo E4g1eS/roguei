@@ -1,8 +1,8 @@
 import { Tile, TileTemplate } from "./tile.js";
 import { Vector2, RandomInt, Debug } from "./primitives.js";
 import { CreateTileset } from "../roguei/tile-types.js";
-import { Player } from "./player.js";
 import { Entity } from "./entity.js";
+import { Camera } from "./camera.js";
 
 class CollapsingTile {
     private _possibilities: Set<TileTemplate> = new Set();
@@ -68,13 +68,13 @@ class CollapsingTile {
 }
 
 export class World {
+    private _camera = new Camera();
+
     private _tiles: Tile[][];
     private _entities: Entity[];
-    private _player: Player;
 
     constructor(size: number = 20) {
         this._entities = new Array<Entity>();
-        this._player = new Player();
 
         this._tiles = [];
 
